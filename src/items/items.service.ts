@@ -1,5 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { ImageDTO } from './DTO/image.dto';
 import { itemsDTO } from './DTO/items.dto';
 import { ItemRepository } from './items.repository';
 
@@ -8,6 +10,8 @@ import { ItemRepository } from './items.repository';
 export class ItemsService {
     constructor(
         private itemRepository: ItemRepository,
+        private cloudinary: CloudinaryService,
+
     ){}
 
     async showAll(){
@@ -49,6 +53,33 @@ export class ItemsService {
       await this.itemRepository.update({ id }, data);
         return await this.itemRepository.findOne({ id });
       }
+
+      async updateLogo(data: ImageDTO): Promise<ImageDTO> {
+        const { id, image } = data;
+        const item = await this.read(id);
+    
+    
+        item.image = image;
+    
+        await this.itemRepository.save(item);
+    
+        return item;
+      }
+
+      
+  async uploadImageToCloudinary(file: Express.Multer.File, id: string) {
+    const picture = await this.cloudinary.uploadImage(file).catch(() => {
+      throw new BadRequestException('Invalid file type.');
+    });
+    const data = {
+      id: id,
+      image: picture.secure_url,
+    };
+
+    await this.updateLogo(data);
+
+    return picture;
+  }
       
     
 }

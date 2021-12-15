@@ -7,6 +7,7 @@ import { ItemsModule } from './items/items.module';
 import { SuggestModule } from './suggest/suggest.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 
 @Module({
@@ -31,6 +32,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     ItemsModule,
     UserModule,
     SuggestModule,
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

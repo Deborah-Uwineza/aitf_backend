@@ -7,9 +7,12 @@ import {
     Patch,
     UseGuards,
     Request,
+    UseInterceptors,
+    UploadedFile,
     } from '@nestjs/common';
 import { Controller, Get, HttpStatus } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 import { itemsDTO } from './DTO/items.dto';
 import { ItemsService } from './items.service';
@@ -69,4 +72,22 @@ export class ItemsController {
           message: 'deleted successfully',
         };
       }
+
+      @Post('uploadImage/:id')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadImage(
+    @UploadedFile() file: Express.Multer.File,
+    @Param('id') id: string,
+  ) {
+    const picture = await this.itemsService.uploadImageToCloudinary(
+      file,
+      id,
+    );
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Imanage added successfully',
+      payload: picture,
+    };
+  }
+
 }

@@ -6,9 +6,10 @@ import { ItemsController } from './items.controller';
 
 import { ItemRepository } from './items.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CloudinaryModule } from '../cloudinary/cloudinary.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ItemRepository])],
+  imports: [CloudinaryModule,TypeOrmModule.forFeature([ItemRepository])],
   providers: [ItemsService],
   // exports: [ItemRepository],
   controllers: [ItemsController],
