@@ -16,7 +16,7 @@ export class Items {
   status: string;
   @Column()
   image: string;
-
+//one item to many suggest
   @OneToMany(() => Suggest, suggest => suggest.item)
     suggests: Suggest[];
 

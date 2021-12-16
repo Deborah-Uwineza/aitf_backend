@@ -54,7 +54,7 @@ export class ItemsService {
         return await this.itemRepository.findOne({ id });
       }
 
-      async updateLogo(data: ImageDTO): Promise<ImageDTO> {
+      async updateImage(data: ImageDTO): Promise<ImageDTO> {
         const { id, image } = data;
         const item = await this.read(id);
     
@@ -75,8 +75,9 @@ export class ItemsService {
       id: id,
       image: picture.secure_url,
     };
+    console.log(data);
 
-    await this.updateLogo(data);
+    await this.updateImage(data);
 
     return picture;
   }

@@ -73,12 +73,16 @@ export class ItemsController {
         };
       }
 
+
+      // Upload image of item 
+
       @Post('uploadImage/:id')
   @UseInterceptors(FileInterceptor('file'))
   async uploadImage(
     @UploadedFile() file: Express.Multer.File,
     @Param('id') id: string,
   ) {
+
     const picture = await this.itemsService.uploadImageToCloudinary(
       file,
       id,

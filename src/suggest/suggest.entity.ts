@@ -24,7 +24,7 @@ export class Suggest {
 
   @Column({nullable:true})
   location:string;
-
+//one request can ask many items
   @ManyToOne(() => Items, item => item.suggests)
     item: Items;
   @ManyToOne(() => User, user => user.suggests)
